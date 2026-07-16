@@ -448,9 +448,17 @@ export default function App() {
               </div>
             </div>
 
-            <button className="btn btn-secondary" style={{ marginTop: '2rem' }} onClick={() => setView('login')}>
-              <span>Return to Login ➔</span>
-            </button>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem', flexWrap: 'wrap' }}>
+              <button className="btn btn-primary" onClick={() => setView('landing')} style={{ border: '2px solid var(--color-dark)', boxShadow: '3px 3px 0 var(--color-dark)', fontWeight: 800 }}>
+                <span>Enter Learner Portal ➔</span>
+              </button>
+              <button className="btn btn-secondary" onClick={() => setView('mentor-dashboard')} style={{ backgroundColor: 'var(--color-primary-light)', color: 'var(--color-dark)', border: '2px solid var(--color-dark)', boxShadow: '3px 3px 0 var(--color-dark)', fontWeight: 800 }}>
+                <span>Enter Mentor Portal ➔</span>
+              </button>
+              <button className="btn btn-outline" onClick={() => { setUserRole(null); setView('login'); }} style={{ border: '2px solid var(--color-dark)', fontWeight: 850 }}>
+                <span>Return to Login ➔</span>
+              </button>
+            </div>
           </div>
         );
       default:

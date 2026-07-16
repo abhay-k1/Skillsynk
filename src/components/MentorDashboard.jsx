@@ -122,28 +122,40 @@ export default function MentorDashboard({ bookings, mentors, customRoadmaps = []
 
   return (
     <div className="mentor-dashboard-container animate-slide-up">
-      {/* Selector of mentor profile */}
-      <div className="mentor-identity-picker card">
-        <div className="identity-lbl">
-          <UserCheck size={18} />
-          <span>Demo Account Picker:</span>
+      <div className="mentor-identity-picker card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', flexWrap: 'wrap', gap: '1rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexGrow: 1, flexWrap: 'wrap' }}>
+          <div className="identity-lbl">
+            <UserCheck size={18} />
+            <span>Select Mentor Account:</span>
+          </div>
+          <div className="mentor-picker-select-wrapper" style={{ flexGrow: 1, maxWidth: '400px' }}>
+            <select 
+              className="builder-select" 
+              value={activeMentorId} 
+              onChange={(e) => setActiveMentorId(e.target.value)}
+              style={{ padding: '0.65rem 1rem', border: '2px solid var(--color-dark)', borderRadius: '12px', fontSize: '0.95rem', fontWeight: 700, width: '100%', background: '#FFFFFF', color: 'var(--color-dark)', cursor: 'pointer' }}
+            >
+              {mentors.map((m) => {
+                const count = bookings.filter(b => b.mentorId === m.id).length;
+                return (
+                  <option key={m.id} value={m.id}>
+                    {m.name} ({m.company}) {count > 0 ? `— [${count} Session(s)]` : ''}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
         </div>
-        <div className="mentor-pills">
-          {mentors.map((m) => {
-            const count = bookings.filter(b => b.mentorId === m.id).length;
-            return (
-              <button 
-                key={m.id}
-                className={`mentor-login-pill ${activeMentorId === m.id ? 'active' : ''}`}
-                onClick={() => setActiveMentorId(m.id)}
-              >
-                <span className="pill-dot" style={{ backgroundColor: m.accentColor }}></span>
-                <span>{m.name}</span>
-                {count > 0 && <span className="pill-badge">{count}</span>}
-              </button>
-            );
-          })}
-        </div>
+        <button 
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            window.location.hash = '#login';
+            window.location.reload();
+          }}
+          style={{ padding: '0.65rem 1.25rem', border: '2px solid var(--color-dark)', fontWeight: 800 }}
+        >
+          Logout / Switch Account ➔
+        </button>
       </div>
 
       <div className="dashboard-grid">
