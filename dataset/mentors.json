@@ -1,4 +1,4 @@
-export const mockMentors = [
+[
   {
     "id": "mentor_1",
     "name": "Sofia Allen",
@@ -4224,4 +4224,4 @@ export const mockMentors = [
       "Friday 10:00 AM"
     ]
   }
-];
+]
