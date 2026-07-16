@@ -46,6 +46,38 @@ export default function App() {
       dateTime: "2026-07-22 at 6:00 PM EST",
       description: "Public roasting of portfolio frameworks. Open to all students, developers, and designers.",
       link: "https://zoom.us/mock-seminar-aria"
+    },
+    {
+      id: "seed_seminar_2",
+      title: "Next.js Server Actions & API Design Under Load",
+      mentorName: "Devon Miller",
+      dateTime: "2026-07-24 at 4:00 PM EST",
+      description: "Deep dive into React Server Components, server-side data mutations, caching layers, and high-performance databases.",
+      link: "https://zoom.us/mock-seminar-devon"
+    },
+    {
+      id: "seed_seminar_3",
+      title: "Designing for Conversion: High-Impact Landing Page Heuristics",
+      mentorName: "Aria Chen",
+      dateTime: "2026-07-26 at 7:00 PM EST",
+      description: "How to use high-contrast spacing rules, bold typography, and visual pillars to capture attention and improve signups.",
+      link: "https://zoom.us/mock-seminar-conversion"
+    },
+    {
+      id: "seed_seminar_4",
+      title: "Figma Auto Layout Mastery & Component State Libraries",
+      mentorName: "Devon Miller",
+      dateTime: "2026-07-28 at 2:00 PM EST",
+      description: "Build robust design systems that respond dynamically to varying content lengths and support complex nested slots.",
+      link: "https://zoom.us/mock-seminar-figma"
+    },
+    {
+      id: "seed_seminar_5",
+      title: "Scaling Python Machine Learning Pipelines to Production",
+      mentorName: "Aria Chen",
+      dateTime: "2026-07-30 at 5:00 PM EST",
+      description: "Learn how to wrap PyTorch models in lightweight APIs, containerize environments with Docker, and audit prediction latency.",
+      link: "https://zoom.us/mock-seminar-ml"
     }
   ]);
 

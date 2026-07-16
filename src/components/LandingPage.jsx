@@ -237,7 +237,7 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
       {/* MODAL 1: AI Roadmap Generator Modal */}
       {showRoadmapModal && (
         <div className="modal-backdrop">
-          <div className="glass-modal-panel animate-slide-up">
+          <div className="maximalist-modal-panel animate-slide-up">
             <button className="modal-close-btn" onClick={() => setShowRoadmapModal(false)}>
               <X size={20} />
             </button>
@@ -349,7 +349,7 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
       {/* MODAL 2: Public Seminars Hub Modal */}
       {showSeminarsModal && (
         <div className="modal-backdrop">
-          <div className="glass-modal-panel animate-slide-up">
+          <div className="maximalist-modal-panel animate-slide-up">
             <button className="modal-close-btn" onClick={() => setShowSeminarsModal(false)}>
               <X size={20} />
             </button>
@@ -679,28 +679,27 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
           padding: 1.5rem;
         }
 
-        .glass-modal-panel {
+        .maximalist-modal-panel {
           width: 100%;
-          max-width: 650px;
-          background: rgba(255, 255, 255, 0.08);
-          border: 2px solid rgba(255, 255, 255, 0.22);
-          border-radius: 28px;
-          padding: 2.5rem;
+          max-width: 700px;
+          background: #FFFFFF !important;
+          border: 4px solid var(--color-dark) !important;
+          border-radius: 24px !important;
+          padding: 2.5rem !important;
           position: relative;
-          box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
-          backdrop-filter: blur(25px) saturate(180%);
-          -webkit-backdrop-filter: blur(25px) saturate(180%);
-          color: #FFFFFF;
+          box-shadow: 10px 10px 0px var(--color-dark) !important;
+          color: var(--color-dark) !important;
           text-align: left;
+          z-index: 1010;
         }
 
         .modal-close-btn {
           position: absolute;
           top: 1.5rem;
           right: 1.5rem;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.15);
-          color: #FFFFFF;
+          background: #FFFFFF;
+          border: 2px solid var(--color-dark);
+          color: var(--color-dark);
           width: 36px;
           height: 36px;
           border-radius: 50%;
@@ -708,25 +707,26 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
         }
 
         .modal-close-btn:hover {
-          background: rgba(239, 68, 68, 0.2);
-          border-color: #EF4444;
-          color: #FCA5A5;
+          background: var(--color-accent);
+          color: #FFFFFF;
+          transform: scale(1.1);
         }
 
         .modal-title {
           font-family: 'Space Grotesk', sans-serif;
-          font-size: 1.8rem;
-          font-weight: 800;
+          font-size: 2rem;
+          font-weight: 900;
           margin-bottom: 0.5rem;
+          color: var(--color-dark) !important;
         }
 
         .modal-subtitle {
           font-size: 0.95rem;
-          color: rgba(255,255,255,0.7);
+          color: #4B5563 !important;
           margin-bottom: 2rem;
           line-height: 1.5;
         }
@@ -759,22 +759,22 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
           font-weight: 800;
           text-transform: uppercase;
           letter-spacing: 0.05em;
-          color: rgba(255,255,255,0.6);
+          color: var(--color-dark) !important;
         }
 
         .generator-input {
-          background: rgba(255, 255, 255, 0.04);
-          border: 1.5px solid rgba(255, 255, 255, 0.15);
-          border-radius: 12px;
-          padding: 0.75rem 1rem;
-          font-size: 0.95rem;
-          color: #FFFFFF;
+          background: #FAFAFA !important;
+          border: 2px solid var(--color-dark) !important;
+          border-radius: 12px !important;
+          padding: 0.75rem 1rem !important;
+          font-size: 0.95rem !important;
+          color: var(--color-dark) !important;
           outline: none;
           transition: all 0.3s ease;
         }
 
         .generator-input:focus {
-          border-color: #84CC16;
+          border-color: var(--color-primary) !important;
         }
 
         .duration-pill-group {
@@ -784,22 +784,22 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
 
         .duration-pill-btn {
           flex: 1;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1.5px solid rgba(255, 255, 255, 0.15);
-          color: rgba(255, 255, 255, 0.75);
-          padding: 0.75rem;
-          border-radius: 12px;
-          font-family: 'Space Grotesk', sans-serif;
-          font-weight: 700;
-          font-size: 0.85rem;
+          background: #FAFAFA !important;
+          border: 2px solid var(--color-dark) !important;
+          color: var(--color-dark) !important;
+          padding: 0.75rem !important;
+          border-radius: 12px !important;
+          font-family: 'Space Grotesk', sans-serif !important;
+          font-weight: 700 !important;
+          font-size: 0.85rem !important;
           cursor: pointer;
-          transition: all 0.3s ease;
+          transition: all 0.2s ease;
         }
 
         .duration-pill-btn.active {
-          background: rgba(99, 102, 241, 0.2);
-          border-color: #6366F1;
-          color: #A5B4FC;
+          background: var(--color-primary-light) !important;
+          color: var(--color-dark) !important;
+          box-shadow: 2px 2px 0 var(--color-dark) !important;
         }
 
         .generator-submit-btn {
@@ -807,8 +807,8 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
         }
 
         .loading-card {
-          background: rgba(255, 255, 255, 0.03);
-          border: 2px dashed rgba(255, 255, 255, 0.1);
+          background: #FAFAFA;
+          border: 3px dashed var(--color-dark);
           padding: 1.5rem;
           border-radius: 16px;
           text-align: center;
@@ -817,14 +817,16 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
           align-items: center;
           gap: 0.75rem;
           font-size: 0.9rem;
+          color: var(--color-dark);
+          font-weight: 600;
         }
 
         .loading-spin {
-          color: var(--color-lime);
+          color: var(--color-primary);
         }
 
         .roadmap-result-panel {
-          border-top: 1.5px dashed rgba(255, 255, 255, 0.12);
+          border-top: 2px dashed var(--color-dark);
           margin-top: 1.5rem;
           padding-top: 1.5rem;
         }
@@ -838,19 +840,20 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
 
         .result-header h4 {
           font-size: 1.25rem;
-          font-weight: 800;
+          font-weight: 900;
           font-family: 'Space Grotesk', sans-serif;
+          color: var(--color-dark);
         }
 
         .timeline-tag {
-          background: rgba(132, 204, 22, 0.15);
-          border: 1px solid #84CC16;
-          color: #BEF264;
+          background: var(--color-lime-light) !important;
+          border: 2px solid var(--color-dark) !important;
+          color: var(--color-dark) !important;
           padding: 0.2rem 0.5rem;
           border-radius: 6px;
           font-size: 0.75rem;
           font-family: 'Space Grotesk', sans-serif;
-          font-weight: 750;
+          font-weight: 800;
         }
 
         .result-steps-timeline {
@@ -860,13 +863,15 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
         }
 
         .result-step-card {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 12px;
-          padding: 1.25rem;
-          display: flex;
-          gap: 1.25rem;
-          align-items: flex-start;
+          background: #FAFAFA !important;
+          border: 2px solid var(--color-dark) !important;
+          border-radius: 12px !important;
+          padding: 1.25rem !important;
+          display: flex !important;
+          gap: 1.25rem !important;
+          align-items: flex-start !important;
+          color: var(--color-dark) !important;
+          box-shadow: 3px 3px 0 var(--color-dark) !important;
         }
 
         .step-num-left {
@@ -879,8 +884,8 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
 
         .step-week-lbl {
           font-size: 0.65rem;
-          font-weight: 800;
-          color: var(--color-lime);
+          font-weight: 850;
+          color: var(--color-primary);
           font-family: 'Space Grotesk', sans-serif;
         }
 
@@ -888,9 +893,9 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
           width: 28px;
           height: 28px;
           border-radius: 50%;
-          border: 1.5px solid rgba(255, 255, 255, 0.2);
-          background: rgba(255, 255, 255, 0.05);
-          color: #FFFFFF;
+          border: 2px solid var(--color-dark);
+          background: #FFFFFF;
+          color: var(--color-dark);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -904,11 +909,12 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
           font-size: 1.05rem;
           font-weight: 800;
           font-family: 'Space Grotesk', sans-serif;
+          color: var(--color-dark);
         }
 
         .step-info-right p {
           font-size: 0.85rem;
-          color: rgba(255, 255, 255, 0.65);
+          color: #374151 !important;
           line-height: 1.45;
         }
 
@@ -922,7 +928,7 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
 
         .study-lbl {
           font-weight: 800;
-          color: rgba(255,255,255,0.3);
+          color: #9CA3AF !important;
           text-transform: uppercase;
           font-size: 0.7rem;
         }
@@ -931,22 +937,29 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
           display: inline-flex;
           align-items: center;
           gap: 0.25rem;
-          color: #A5B4FC;
-          font-weight: 700;
+          color: var(--color-primary) !important;
+          font-weight: 800;
           text-decoration: underline;
         }
 
         /* Seminar Card */
         .seminar-item-card {
-          background: rgba(255, 255, 255, 0.04);
-          border: 2px solid rgba(255, 255, 255, 0.12);
-          border-radius: 16px;
-          padding: 1.5rem;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 1.5rem;
-          box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+          background: #FFFFFF !important;
+          border: 3px solid var(--color-dark) !important;
+          border-radius: 16px !important;
+          padding: 1.5rem !important;
+          display: flex !important;
+          justify-content: space-between !important;
+          align-items: center !important;
+          gap: 1.5rem !important;
+          box-shadow: 4px 4px 0 var(--color-dark) !important;
+          transition: all 0.2s ease !important;
+          color: var(--color-dark) !important;
+        }
+
+        .seminar-item-card:hover {
+          transform: translate(-2px, -2px) !important;
+          box-shadow: 6px 6px 0 var(--color-dark) !important;
         }
 
         .seminar-main-details {
@@ -963,35 +976,37 @@ export default function LandingPage({ onStart, onSwitchToMentor, userRole, semin
         }
 
         .seminar-mentor-badge {
-          background-color: rgba(132, 204, 22, 0.15);
-          color: #BEF264;
-          border: 1px solid rgba(132, 204, 22, 0.2);
-          border-radius: 6px;
-          padding: 0.15rem 0.5rem;
-          font-size: 0.7rem;
-          font-weight: 800;
-          font-family: 'Space Grotesk', sans-serif;
+          background-color: var(--color-lime-light) !important;
+          color: var(--color-dark) !important;
+          border: 2px solid var(--color-dark) !important;
+          border-radius: 6px !important;
+          padding: 0.15rem 0.5rem !important;
+          font-size: 0.7rem !important;
+          font-weight: 800 !important;
+          font-family: 'Space Grotesk', sans-serif !important;
         }
 
         .seminar-time-badge {
-          background-color: rgba(255, 255, 255, 0.08);
-          color: #FFFFFF;
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          border-radius: 6px;
-          padding: 0.15rem 0.5rem;
-          font-size: 0.7rem;
-          font-weight: 700;
+          background-color: #FAFAFA !important;
+          color: var(--color-dark) !important;
+          border: 2px solid var(--color-dark) !important;
+          border-radius: 6px !important;
+          padding: 0.15rem 0.5rem !important;
+          font-size: 0.7rem !important;
+          font-weight: 800 !important;
         }
 
         .seminar-main-details h5 {
-          font-size: 1.15rem;
-          font-weight: 800;
-          font-family: 'Space Grotesk', sans-serif;
+          font-size: 1.25rem !important;
+          font-weight: 800 !important;
+          font-family: 'Space Grotesk', sans-serif !important;
+          color: var(--color-dark) !important;
         }
 
         .seminar-main-details p {
-          font-size: 0.85rem;
-          color: rgba(255, 255, 255, 0.7);
+          font-size: 0.85rem !important;
+          color: #4B5563 !important;
+          line-height: 1.5 !important;5, 255, 0.7);
           line-height: 1.5;
         }
 
