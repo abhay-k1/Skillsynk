@@ -37,6 +37,18 @@ export default function App() {
   // Shared state for custom roadmaps uploaded by mentors
   const [customRoadmaps, setCustomRoadmaps] = useState([]);
 
+  // Shared state for public seminars
+  const [seminars, setSeminars] = useState([
+    {
+      id: "seed_seminar_1",
+      title: "Breaking into Tech: Resume speedruns & portfolio roasting",
+      mentorName: "Aria Chen",
+      dateTime: "2026-07-22 at 6:00 PM EST",
+      description: "Public roasting of portfolio frameworks. Open to all students, developers, and designers.",
+      link: "https://zoom.us/mock-seminar-aria"
+    }
+  ]);
+
   // Role Access Security Guard
   useEffect(() => {
     if (!userRole && view !== 'login') {
@@ -119,6 +131,25 @@ export default function App() {
           }));
           setBookings(prev => {
             const combined = [...mappedBookings, ...prev.filter(p => !mappedBookings.some(m => m.id === p.id))];
+            return combined;
+          });
+        }
+
+        // Fetch public seminars
+        const { data: seminarsData } = await supabase
+          .from('seminars')
+          .select('*');
+        if (seminarsData && seminarsData.length > 0) {
+          const mappedSeminars = seminarsData.map(s => ({
+            id: s.id,
+            title: s.title,
+            mentorName: s.mentor_name,
+            dateTime: s.date_time,
+            description: s.description,
+            link: s.link
+          }));
+          setSeminars(prev => {
+            const combined = [...mappedSeminars, ...prev.filter(p => !mappedSeminars.some(m => m.id === p.id))];
             return combined;
           });
         }
@@ -240,6 +271,22 @@ export default function App() {
     });
   };
 
+  // Action: Publish public seminar
+  const publishSeminar = async (newSeminar) => {
+    try {
+      await supabase.from('seminars').insert({
+        title: newSeminar.title,
+        mentor_name: newSeminar.mentorName,
+        date_time: newSeminar.dateTime,
+        description: newSeminar.description,
+        link: newSeminar.link
+      });
+    } catch (err) {
+      console.warn("Supabase seminar insert failed:", err);
+    }
+    setSeminars(prev => [newSeminar, ...prev]);
+  };
+
   // Render view based on state
   const renderView = () => {
     switch (view) {
@@ -269,6 +316,7 @@ export default function App() {
             onStart={() => setView('onboarding')} 
             onSwitchToMentor={() => setView('mentor-dashboard')}
             userRole={userRole}
+            seminars={seminars}
           />
         );
       case 'onboarding':
@@ -327,6 +375,8 @@ export default function App() {
             mentors={mockMentors}
             customRoadmaps={customRoadmaps}
             onPublishRoadmap={publishCustomRoadmap}
+            seminars={seminars}
+            onPublishSeminar={publishSeminar}
           />
         );
       case 'admin-dashboard':

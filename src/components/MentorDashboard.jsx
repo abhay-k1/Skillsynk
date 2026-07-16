@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Sparkles, Calendar, Clock, CheckCircle2, ChevronRight, UserCheck, MessageSquare, AlertCircle, PlayCircle } from 'lucide-react';
 import { generateMentorAgenda } from '../services/aiService';
 
-export default function MentorDashboard({ bookings, mentors, customRoadmaps = [], onPublishRoadmap }) {
+export default function MentorDashboard({ bookings, mentors, customRoadmaps = [], onPublishRoadmap, seminars = [], onPublishSeminar }) {
   // Choose which mentor profile is logged in for the demo
   const [activeMentorId, setActiveMentorId] = useState('mentor_1'); // Default Aria Chen
   const [selectedBooking, setSelectedBooking] = useState(null);
@@ -36,6 +36,37 @@ export default function MentorDashboard({ bookings, mentors, customRoadmaps = []
   const [p3Title, setP3Title] = useState('');
   const [p3Desc, setP3Desc] = useState('');
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+
+  // Seminar Builder states
+  const [semTitle, setSemTitle] = useState('');
+  const [semDateTime, setSemDateTime] = useState('');
+  const [semDesc, setSemDesc] = useState('');
+  const [semLink, setSemLink] = useState('');
+  const [semSuccess, setSemSuccess] = useState(false);
+
+  const handlePublishSeminarSubmit = (e) => {
+    e.preventDefault();
+    if (!semTitle.trim() || !semDateTime.trim() || !semLink.trim()) return;
+
+    onPublishSeminar({
+      id: `seminar_${Date.now()}`,
+      title: semTitle,
+      mentorName: activeMentor?.name || "Aria Chen",
+      dateTime: semDateTime,
+      description: semDesc,
+      link: semLink
+    });
+
+    setSemTitle('');
+    setSemDateTime('');
+    setSemDesc('');
+    setSemLink('');
+
+    setSemSuccess(true);
+    setTimeout(() => {
+      setSemSuccess(false);
+    }, 4000);
+  };
 
   const handlePublishRoadmap = (e) => {
     e.preventDefault();
@@ -394,6 +425,110 @@ export default function MentorDashboard({ bookings, mentors, customRoadmaps = []
                           </div>
                         ))}
                       </div>
+                    </div>
+                  ))
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Dynamic Public Seminar Scheduler Section */}
+      <section className="custom-roadmap-builder card" style={{ marginTop: '2.5rem' }}>
+        <div className="builder-header">
+          <h3>🎪 Host a Public Mentorship Seminar</h3>
+          <p>Schedule a public talk, group workshop, or masterclass. These seminars are accessible to all platform students globally, and are not restricted to domain-centric or personal matches.</p>
+        </div>
+
+        <div className="builder-grid">
+          <form onSubmit={handlePublishSeminarSubmit} className="roadmap-form">
+            {semSuccess && (
+              <div className="success-toast">
+                <CheckCircle2 size={16} />
+                <span>Seminar published successfully! It is now live in the Learner Knowledge Hub.</span>
+              </div>
+            )}
+
+            <div className="form-row">
+              <div className="form-col-100">
+                <label className="builder-label">Seminar Title</label>
+                <input 
+                  type="text" 
+                  className="builder-input" 
+                  placeholder="e.g. Scaling web architectures to 10k users"
+                  value={semTitle}
+                  onChange={(e) => setSemTitle(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-col-50">
+                <label className="builder-label">Date & Time</label>
+                <input 
+                  type="text" 
+                  className="builder-input" 
+                  placeholder="e.g. July 24 at 5:00 PM EST"
+                  value={semDateTime}
+                  onChange={(e) => setSemDateTime(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="form-col-50">
+                <label className="builder-label">Video Conference Link</label>
+                <input 
+                  type="url" 
+                  className="builder-input" 
+                  placeholder="e.g. https://zoom.us/j/123456"
+                  value={semLink}
+                  onChange={(e) => setSemLink(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-row">
+              <div className="form-col-100">
+                <label className="builder-label">Short Description</label>
+                <textarea 
+                  className="builder-textarea" 
+                  placeholder="Briefly describe what students will learn and who this session is designed for."
+                  value={semDesc}
+                  onChange={(e) => setSemDesc(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <button type="submit" className="btn btn-primary roadmap-submit-btn">
+              <span>Publish Seminar ⚡</span>
+            </button>
+          </form>
+
+          {/* List of active seminars */}
+          <div className="library-panel">
+            <h4 className="library-title">Scheduled Seminars</h4>
+            <div className="library-list">
+              {seminars.filter(s => s.mentorName === activeMentor?.name).length === 0 ? (
+                <div style={{ padding: '2rem 1rem', color: 'var(--color-text-muted)', fontSize: '0.9rem', fontWeight: 600 }}>
+                  No seminars scheduled yet. Use the form to host a session!
+                </div>
+              ) : (
+                seminars
+                  .filter(s => s.mentorName === activeMentor?.name)
+                  .map((s, idx) => (
+                    <div key={idx} className="library-card" style={{ borderLeft: '4px solid var(--color-primary)' }}>
+                      <div className="library-card-header">
+                        <h5>{s.title}</h5>
+                        <span className="badge badge-success" style={{ fontSize: '0.65rem', backgroundColor: 'var(--color-primary)', color: '#fff' }}>Live Link</span>
+                      </div>
+                      <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', margin: '0.4rem 0' }}>
+                        {s.dateTime}
+                      </p>
+                      <a href={s.link} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--color-primary)', textDecoration: 'underline' }}>
+                        Join URL ➔
+                      </a>
                     </div>
                   ))
               )}
