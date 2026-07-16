@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Sparkles, Calendar, Clock, CheckCircle2, ChevronRight, UserCheck, MessageSquare, AlertCircle, PlayCircle } from 'lucide-react';
 import { generateMentorAgenda } from '../services/aiService';
 
-export default function MentorDashboard({ bookings, mentors, customRoadmaps = [], setCustomRoadmaps }) {
+export default function MentorDashboard({ bookings, mentors, customRoadmaps = [], onPublishRoadmap }) {
   // Choose which mentor profile is logged in for the demo
   const [activeMentorId, setActiveMentorId] = useState('mentor_1'); // Default Aria Chen
   const [selectedBooking, setSelectedBooking] = useState(null);
@@ -55,13 +55,7 @@ export default function MentorDashboard({ bookings, mentors, customRoadmaps = []
       ]
     };
 
-    setCustomRoadmaps(prev => {
-      // Remove any existing custom roadmap for this skill to overwrite it
-      const filtered = prev.filter(
-        r => !(r.skillName.toLowerCase() === selectedSkill.toLowerCase() && r.mentorName === activeMentor.name)
-      );
-      return [newRoadmap, ...filtered];
-    });
+    onPublishRoadmap(newRoadmap);
 
     // Reset form fields
     setP1Title('');

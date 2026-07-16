@@ -7,6 +7,7 @@ import MatchResults from './components/MatchResults';
 import BookingScreen from './components/BookingScreen';
 import MentorDashboard from './components/MentorDashboard';
 import LoginPage from './components/LoginPage';
+import { supabase } from './supabaseClient';
 
 // Mock mentors list
 import { mockMentors } from './data/mockMentors';
@@ -78,6 +79,57 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  // Fetch initial data from Supabase database on component mount
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        // Fetch custom roadmaps
+        const { data: roadmapsData } = await supabase
+          .from('custom_roadmaps')
+          .select('*');
+        if (roadmapsData && roadmapsData.length > 0) {
+          setCustomRoadmaps(roadmapsData.map(r => ({
+            mentorId: r.mentor_id,
+            mentorName: r.mentor_name,
+            skillName: r.skill_name,
+            steps: r.steps
+          })));
+        }
+
+        // Fetch bookings
+        const { data: bookingsData } = await supabase
+          .from('bookings')
+          .select('*');
+        if (bookingsData && bookingsData.length > 0) {
+          const mappedBookings = bookingsData.map(b => ({
+            id: b.id,
+            studentName: b.student_name,
+            studentProfile: {
+              name: b.student_name,
+              targetRole: b.student_role,
+              experience: b.student_experience,
+              goals: b.student_goals,
+              learningStyle: b.student_learning_style
+            },
+            gaps: b.gaps || [],
+            mentorId: b.mentor_id,
+            mentorName: b.mentor_name,
+            slot: b.slot,
+            dateBooked: b.date_booked
+          }));
+          setBookings(prev => {
+            const combined = [...mappedBookings, ...prev.filter(p => !mappedBookings.some(m => m.id === p.id))];
+            return combined;
+          });
+        }
+      } catch (err) {
+        console.warn("Supabase load initial state failed:", err);
+      }
+    };
+
+    fetchInitialData();
+  }, []);
+
   // Dynamic booking state
   const [bookings, setBookings] = useState([
     {
@@ -125,7 +177,7 @@ export default function App() {
   ]);
 
   // Action: Add new booking
-  const addBooking = (mentor, slot) => {
+  const addBooking = async (mentor, slot) => {
     const newBooking = {
       id: `booking_${Date.now()}`,
       studentName: learnerProfile.name || 'Anonymous Learner',
@@ -136,7 +188,56 @@ export default function App() {
       slot: slot,
       dateBooked: new Date().toISOString().split('T')[0]
     };
+
+    try {
+      await supabase.from('bookings').insert({
+        id: newBooking.id,
+        student_name: newBooking.studentName,
+        student_role: learnerProfile.targetRole,
+        student_experience: learnerProfile.experience,
+        student_goals: learnerProfile.goals,
+        student_learning_style: learnerProfile.learningStyle,
+        mentor_id: mentor.id,
+        mentor_name: mentor.name,
+        slot: slot,
+        date_booked: newBooking.dateBooked,
+        gaps: gaps
+      });
+    } catch (err) {
+      console.warn("Supabase booking insert failed:", err);
+    }
+
     setBookings((prev) => [newBooking, ...prev]);
+  };
+
+  // Action: Publish custom roadmap (mentor upload)
+  const publishCustomRoadmap = async (newRoadmap) => {
+    try {
+      // Overwrite existing by deleting old match first
+      await supabase
+        .from('custom_roadmaps')
+        .delete()
+        .match({ mentor_id: newRoadmap.mentorId, skill_name: newRoadmap.skillName });
+
+      // Insert new custom record
+      await supabase
+        .from('custom_roadmaps')
+        .insert({
+          mentor_id: newRoadmap.mentorId,
+          mentor_name: newRoadmap.mentorName,
+          skill_name: newRoadmap.skillName,
+          steps: newRoadmap.steps
+        });
+    } catch (err) {
+      console.warn("Supabase custom roadmap insert failed:", err);
+    }
+
+    setCustomRoadmaps(prev => {
+      const filtered = prev.filter(
+        r => !(r.skillName.toLowerCase() === newRoadmap.skillName.toLowerCase() && r.mentorId === newRoadmap.mentorId)
+      );
+      return [newRoadmap, ...filtered];
+    });
   };
 
   // Render view based on state
@@ -225,7 +326,7 @@ export default function App() {
             bookings={bookings}
             mentors={mockMentors}
             customRoadmaps={customRoadmaps}
-            setCustomRoadmaps={setCustomRoadmaps}
+            onPublishRoadmap={publishCustomRoadmap}
           />
         );
       case 'admin-dashboard':
