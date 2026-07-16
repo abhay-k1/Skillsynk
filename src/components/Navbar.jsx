@@ -1,5 +1,6 @@
 import React from 'react';
 import { Compass, Users } from 'lucide-react';
+import logoImg from '../assets/logo.png';
 
 export default function Navbar({ currentView, setView, userRole }) {
   const isMentorView = currentView === 'mentor-dashboard';
@@ -16,11 +17,8 @@ export default function Navbar({ currentView, setView, userRole }) {
     <header className={`navbar-header ${isLanding ? 'is-landing-nav' : ''}`}>
       <div className="navbar-inner">
         {/* Brand Logo */}
-        <div className="navbar-logo" onClick={() => setView('landing')} style={{ cursor: 'pointer' }}>
-          <div className="logo-icon">⚡</div>
-          <span className="logo-text">
-            SkillSync<span className="logo-accent">.AI</span>
-          </span>
+        <div className="navbar-logo" onClick={() => setView('landing')} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
+          <img src={logoImg} alt="SkillSync" style={{ height: '36px', objectFit: 'contain' }} />
         </div>
 
         {/* Learner Journey Map */}
