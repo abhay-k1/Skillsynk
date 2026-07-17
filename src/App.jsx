@@ -520,7 +520,7 @@ export default function App() {
       {/* Dynamic light footer */}
       <footer className="app-footer">
         <div className="footer-content">
-          <p>© {new Date().getFullYear()} SkillSync. Made for the next gen of builders. ⚡</p>
+          <p>© {new Date().getFullYear()} SkillSync AI. Made for the next gen of builders. ⚡</p>
         </div>
       </footer>
 

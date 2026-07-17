@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Mail, Lock, ArrowRight, UserCheck, Shield, Users } from 'lucide-react';
-import logoImg from '../assets/logo.png';
 
 export default function LoginPage({ onLogin }) {
   const [role, setRole] = useState('learner'); // learner | mentor | admin
@@ -22,8 +21,9 @@ export default function LoginPage({ onLogin }) {
 
       {/* Glassmorphic Login Card */}
       <div className="glass-login-card animate-slide-up">
-        <div className="glass-logo" style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
-          <img src={logoImg} alt="SkillSync" style={{ height: '42px', objectFit: 'contain' }} />
+        <div className="glass-logo">
+          <span className="logo-spark">⚡</span>
+          <span className="logo-txt">SkillSync<span className="logo-sub">.AI</span></span>
         </div>
 
         <div className="glass-header">
